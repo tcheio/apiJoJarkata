@@ -1,0 +1,51 @@
+package com.example.jojakartaapi.model;
+
+import jakarta.persistence.*;
+public class Billeterie {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private Epreuve epreuve;
+    private Long prix;
+    private Integer nbPlace;
+
+    public Billeterie(Long id, Epreuve epreuve, Long prix, Integer nbPlace) {
+        this.id = id;
+        this.epreuve = epreuve;
+        this.prix = prix;
+        this.nbPlace = nbPlace;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Epreuve getEpreuve() {
+        return epreuve;
+    }
+
+    public void setEpreuve(Epreuve epreuve) {
+        this.epreuve = epreuve;
+    }
+
+    public Long getPrix() {
+        return prix;
+    }
+
+    public void setPrix(Long prix) {
+        this.prix = prix;
+    }
+
+    public Integer getNbPlace() {
+        return nbPlace;
+    }
+
+    public void setNbPlace(Integer nbPlace) {
+        this.nbPlace = nbPlace;
+    }
+}
