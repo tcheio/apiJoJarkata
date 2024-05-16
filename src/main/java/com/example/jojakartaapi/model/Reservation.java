@@ -1,8 +1,10 @@
 package com.example.jojakartaapi.model;
 
 import jakarta.persistence.*;
+import com.example.jojakartaapi.idClass.ReservationId;
 
 @Entity
+@IdClass(ReservationId.class)
 public class Reservation {
 
     @Id
@@ -15,7 +17,7 @@ public class Reservation {
     @JoinColumn(name = "epreuve")
     private Epreuve epreuve;
 
-    @Column(name = "nbPlaceReserv")
+    @Column(nullable = false)
     private Integer nbPlaceReserv;
 
     public Reservation(Visiteur visiteur, Epreuve epreuve, Integer nbPlaceReserv) {

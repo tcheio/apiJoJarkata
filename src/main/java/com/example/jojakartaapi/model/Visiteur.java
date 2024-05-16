@@ -12,13 +12,13 @@ public class Visiteur {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "nom")
+    @Column(nullable = false)
     private String nom;
 
-    @Column(name = "tel")
+    @Column(nullable = false)
     private String tel;
 
-    @Column(name = "mail")
+    @Column(nullable = false)
     private String mail;
 
     @Column(nullable = false)

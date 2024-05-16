@@ -12,9 +12,9 @@ public class Billeterie {
     @ManyToOne
     @JoinColumn(name = "epreuve_id")
     private Epreuve epreuve;
-    @Column
+    @Column(nullable = false)
     private Long prix;
-    @Column
+    @Column(nullable = false)
     private Integer nbPlace;
 
     public Billeterie(Long id, Epreuve epreuve, Long prix, Integer nbPlace) {
