@@ -9,9 +9,13 @@ public class Epreuve {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column
     private String libelle;
+    @Column
     private String lieu;
+    @Column
     private Date date;
+    @Column
     private Integer nbPlaces;
 
     public Epreuve() {
