@@ -11,3 +11,6 @@ Les erreurs doivent être gérées
 Il faut des relations entre les entités
 Le rendu doit être fait via git
 La connexion doit être sécurisée
+\n
+
+api/reservations -> Effectue une réservation
