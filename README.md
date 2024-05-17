@@ -13,4 +13,4 @@ Le rendu doit être fait via git
 La connexion doit être sécurisée
 \n
 
-api/reservations -> Effectue une réservation
+POST: api/reservations -> Effectue une réservation
