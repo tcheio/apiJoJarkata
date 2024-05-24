@@ -13,4 +13,5 @@ Le rendu doit être fait via git
 La connexion doit être sécurisée
 \n
 
-POST: api/reservations -> Effectue une réservation
+POST: api/reservations -> Effectue une réservation (à revoir)
+POST: api/epreuves -> Ajoute une épreuve 🟢
