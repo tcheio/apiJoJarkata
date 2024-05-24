@@ -1,29 +1,41 @@
 package com.example.jojakartaapi.model;
 
 import jakarta.persistence.*;
-import com.example.jojakartaapi.idClass.ReservationId;
+import java.util.Date;
 
 @Entity
-@IdClass(ReservationId.class)
 public class Reservation {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
     @ManyToOne
-    @JoinColumn(name = "visiteur")
+    @JoinColumn(name = "visiteur", nullable = false)
     private Visiteur visiteur;
 
-    @Id
-    @ManyToOne
-    @JoinColumn(name = "epreuve")
-    private Epreuve epreuve;
-
     @Column(nullable = false)
-    private Integer nbPlaceReserv;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date date;
 
-    public Reservation(Visiteur visiteur, Epreuve epreuve, Integer nbPlaceReserv) {
+    // Autres propriétés
+
+    // Constructeurs, getters et setters
+    public Reservation() {
+        // Constructeur par défaut requis par JPA
+    }
+
+    public Reservation(Visiteur visiteur, Date date) {
         this.visiteur = visiteur;
-        this.epreuve = epreuve;
-        this.nbPlaceReserv = nbPlaceReserv;
+        this.date = date;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public Visiteur getVisiteur() {
@@ -34,19 +46,12 @@ public class Reservation {
         this.visiteur = visiteur;
     }
 
-    public Epreuve getEpreuve() {
-        return epreuve;
+    public Date getDate() {
+        return date;
     }
 
-    public void setEpreuve(Epreuve epreuve) {
-        this.epreuve = epreuve;
+    public void setDate(Date date) {
+        this.date = date;
     }
 
-    public Integer getNbPlaceReserv() {
-        return nbPlaceReserv;
-    }
-
-    public void setNbPlaceReserv(Integer nbPlaceReserv) {
-        this.nbPlaceReserv = nbPlaceReserv;
-    }
 }

@@ -2,10 +2,7 @@ package com.example.jojakartaapi.model;
 
 import jakarta.persistence.*;
 
-import java.sql.Struct;
-
 @Entity
-@Table(name = "visiteur")
 public class Visiteur {
 
     @Id
@@ -16,25 +13,24 @@ public class Visiteur {
     private String nom;
 
     @Column(nullable = false)
-    private String tel;
+    private String email;
 
     @Column(nullable = false)
-    private String mail;
+    private String telephone;
 
-    @Column(nullable = false)
-    private String password;
+    // Autres propriétés
 
+    // Constructeurs, getters et setters
     public Visiteur() {
-        // Constructeur par défaut nécessaire pour JPA
+        // Constructeur par défaut requis par JPA
     }
 
-    public Visiteur(Long id, String nom, String tel, String mail, String password) {
-        this.id = id;
+    public Visiteur(String nom, String email, String telephone) {
         this.nom = nom;
-        this.tel = tel;
-        this.mail = mail;
-        this.password = password;
+        this.email = email;
+        this.telephone = telephone;
     }
+
     public Long getId() {
         return id;
     }
@@ -50,29 +46,4 @@ public class Visiteur {
     public void setNom(String nom) {
         this.nom = nom;
     }
-
-    public String getTel() {
-        return tel;
-    }
-
-    public void setTel(String tel) {
-        this.tel = tel;
-    }
-
-    public String getMail() {
-        return mail;
-    }
-
-    public void setMail(String mail) {
-        this.mail = mail;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
 }
-

@@ -9,12 +9,17 @@ public class Epreuve {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @Column(nullable = false)
     private String libelle;
+
     @Column(nullable = false)
     private String lieu;
+
     @Column(nullable = false)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date date;
+
     @Column(nullable = false)
     private Integer nbPlaces;
 
@@ -67,5 +72,9 @@ public class Epreuve {
 
     public void setNbPlaces(Integer nbPlaces) {
         this.nbPlaces = nbPlaces;
+    }
+
+    public Epreuve getEpreuve() {
+        return null;
     }
 }

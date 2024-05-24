@@ -1,10 +1,9 @@
 package com.example.jojakartaapi.Controller;
 
-import com.example.jojakartaapi.model.*;
-import com.example.jojakartaapi.repository.EpreuveRepository;
-import com.example.jojakartaapi.repository.VisiteurRepository;
+import com.example.jojakartaapi.model.Reservation;
 import com.example.jojakartaapi.Services.ReservationService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,27 +16,45 @@ public class ReservationController {
     @Autowired
     private ReservationService reservationService;
 
-    @Autowired
-    private VisiteurRepository visiteurRepository;
-
-    @Autowired
-    private EpreuveRepository epreuveRepository;
-
     @PostMapping
-    public ResponseEntity<Reservation> createReservation(
-            @RequestParam Long visiteurId,
-            @RequestParam Long epreuveId,
-            @RequestBody List<Ticket> tickets) {
+    public ResponseEntity<Reservation> createReservation(@RequestBody Reservation reservation) {
+        Reservation newReservation = reservationService.createReservation(reservation);
+        return new ResponseEntity<>(newReservation, HttpStatus.CREATED);
+    }
 
-        // Récupérez les entités visiteur et épreuve à partir de leurs ID
-        Visiteur visiteur = visiteurRepository.findById(visiteurId)
-                .orElseThrow(() -> new IllegalArgumentException("Visiteur non trouvé avec l'ID : " + visiteurId));
-        Epreuve epreuve = epreuveRepository.findById(epreuveId)
-                .orElseThrow(() -> new IllegalArgumentException("Epreuve non trouvée avec l'ID : " + epreuveId)).getEpreuve();
+    @GetMapping("/{id}")
+    public ResponseEntity<Reservation> getReservationById(@PathVariable Long id) {
+        Reservation reservation = reservationService.getReservationById(id);
+        if (reservation != null) {
+            return new ResponseEntity<>(reservation, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
 
-        // Créez la réservation
-        Reservation reservation = reservationService.createReservation(visiteur, epreuve, tickets);
+    @GetMapping
+    public ResponseEntity<List<Reservation>> getAllReservations() {
+        List<Reservation> reservations = reservationService.getAllReservations();
+        return new ResponseEntity<>(reservations, HttpStatus.OK);
+    }
 
-        return ResponseEntity.ok(reservation);
+    @PutMapping("/{id}")
+    public ResponseEntity<Reservation> updateReservation(@PathVariable Long id, @RequestBody Reservation reservationDetails) {
+        Reservation updatedReservation = reservationService.updateReservation(id, reservationDetails);
+        if (updatedReservation != null) {
+            return new ResponseEntity<>(updatedReservation, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<HttpStatus> deleteReservation(@PathVariable Long id) {
+        boolean isDeleted = reservationService.deleteReservation(id);
+        if (isDeleted) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 }
