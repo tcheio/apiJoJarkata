@@ -6,5 +6,4 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface VisiteurRepository extends JpaRepository<Visiteur, Long> {
-    // Vous pouvez ajouter des méthodes de requête personnalisées ici si nécessaire
 }

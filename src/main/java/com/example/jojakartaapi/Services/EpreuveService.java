@@ -14,4 +14,8 @@ public class EpreuveService {
     public Epreuve createEpreuve(Epreuve epreuve) {
         return epreuveRepository.save(epreuve);
     }
+
+    public Epreuve getEpreuveById(Long id) {
+        return epreuveRepository.findById(id).orElse(null);
+    }
 }

@@ -1,12 +1,18 @@
 package com.example.jojakartaapi.Services;
 
+import com.example.jojakartaapi.model.Epreuve;
 import com.example.jojakartaapi.model.Reservation;
+import com.example.jojakartaapi.model.Ticket;
+import com.example.jojakartaapi.model.Visiteur;
+import com.example.jojakartaapi.repository.EpreuveRepository;
 import com.example.jojakartaapi.repository.ReservationRepository;
+import com.example.jojakartaapi.repository.TicketRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class ReservationService {
@@ -14,38 +20,33 @@ public class ReservationService {
     @Autowired
     private ReservationRepository reservationRepository;
 
-    public Reservation createReservation(Reservation reservation) {
-        return reservationRepository.save(reservation);
-    }
+    @Autowired
+    private TicketRepository ticketRepository;
 
-    public Reservation getReservationById(Long id) {
-        Optional<Reservation> reservation = reservationRepository.findById(id);
-        return reservation.orElse(null);
-    }
+    @Autowired
+    private EpreuveRepository epreuveRepository;
 
-    public List<Reservation> getAllReservations() {
-        return reservationRepository.findAll();
-    }
-
-    public Reservation updateReservation(Long id, Reservation reservationDetails) {
-        Optional<Reservation> optionalReservation = reservationRepository.findById(id);
-        if (optionalReservation.isPresent()) {
-            Reservation reservation = optionalReservation.get();
-            reservation.setVisiteur(reservationDetails.getVisiteur());
-            reservation.setDate(reservationDetails.getDate());
-            // Mettre à jour d'autres propriétés si nécessaire
-            return reservationRepository.save(reservation);
-        } else {
-            return null;
-        }
-    }
-
-    public boolean deleteReservation(Long id) {
-        if (reservationRepository.existsById(id)) {
-            reservationRepository.deleteById(id);
-            return true;
-        } else {
+    @Transactional
+    public boolean createReservation(Visiteur visiteur, Long epreuveId, int nbPlaces, Date date) {
+        List<Reservation> existingReservations = reservationRepository.findByVisiteurAndDate(visiteur, date);
+        if (!existingReservations.isEmpty()) {
             return false;
         }
+
+        Epreuve epreuve = epreuveRepository.findById(epreuveId).orElse(null);
+        if (epreuve == null || epreuve.getNbPlaces() < nbPlaces) {
+            return false;
+        }
+        epreuve.setNbPlaces(epreuve.getNbPlaces() - nbPlaces);
+        epreuveRepository.save(epreuve);
+
+        Reservation reservation = new Reservation(visiteur, date);
+        reservationRepository.save(reservation);
+        for (int i = 0; i < nbPlaces; i++) {
+            Ticket ticket = new Ticket(visiteur, reservation);
+            ticketRepository.save(ticket);
+        }
+
+        return true;
     }
 }
