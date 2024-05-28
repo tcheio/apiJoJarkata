@@ -26,6 +26,7 @@ public class ReservationController {
     public ResponseEntity<String> createReservation(@RequestParam Long visiteurId,
                                                     @RequestParam Long epreuveId,
                                                     @RequestParam int nbPlaces){
+        //Date provisoire, dans mon appel la date n'était jamas au bon format pour être interprété
         Date date = new GregorianCalendar(2024, Calendar.MAY, 1, 10, 0).getTime();
         System.out.println("Received request with visiteurId: " + visiteurId + ", epreuveId: " + epreuveId + ", nbPlaces: " + nbPlaces + ", date: " + date);
 
