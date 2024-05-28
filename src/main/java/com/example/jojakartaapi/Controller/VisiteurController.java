@@ -21,7 +21,7 @@ public class VisiteurController {
         return visiteurService.findAll();
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("getVisiteur/{id}")
     public ResponseEntity<Visiteur> getVisiteurById(@PathVariable Long id) {
         return visiteurService.findById(id)
                 .map(ResponseEntity::ok)
@@ -33,7 +33,7 @@ public class VisiteurController {
         return visiteurService.save(visiteur);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("UpdateVisiteur/{id}")
     public ResponseEntity<Visiteur> updateVisiteur(@PathVariable Long id, @RequestBody Visiteur visiteurDetails) {
         try {
             Visiteur updatedVisiteur = visiteurService.update(id, visiteurDetails);
@@ -43,7 +43,7 @@ public class VisiteurController {
         }
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("DeleteVisiteur/{id}")
     public ResponseEntity<Void> deleteVisiteur(@PathVariable Long id) {
         visiteurService.deleteById(id);
         return ResponseEntity.noContent().build();
