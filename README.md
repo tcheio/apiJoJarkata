@@ -12,5 +12,18 @@ Il faut des relations entre les entités 🟢
 La connexion doit être sécurisée
 \n
 
-POST: api/reservations -> Effectue une réservation 🟢
-POST: api/epreuves -> Ajoute une épreuve 🟢
+Routes:
+api/reservations 🟢
+    - 
+api/epreuves 🟢
+    - / -> Récupère toutes les épreuves GET
+    - [avec paramètres] -> Créer une épreuves POST
+    - /getEpreuve/{id} -> Récupère l'épreuve {id} GET
+    - /updateEpreuve/{id} -> Met à jour l'épreuve {id} en fonction des informations saisie PUT
+    - /deleteEpreuve/{id} -> Supprime l'épreuve {id} DELETE
+api/visiteurs 🟢
+    - / -> Récupère tous les visiteurs GET
+    - [avec paramètres] -> Créer un visiteur POST
+    - /getVisiteur/{id} -> Récupère le visiteur {id} GET
+    - /UpdateVisiteur/{id} - Met à jour le visiteur associé à l'id en fonction des infos saisie PUT
+    - /DeleteVisiteur/{id} -> Supprime le visiteur associé à cet id DELETE
