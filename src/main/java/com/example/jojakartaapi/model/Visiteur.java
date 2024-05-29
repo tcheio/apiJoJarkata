@@ -18,11 +18,7 @@ public class Visiteur {
     @Column(nullable = false)
     private String telephone;
 
-    // Autres propriétés
-
-    // Constructeurs, getters et setters
     public Visiteur() {
-        // Constructeur par défaut requis par JPA
     }
 
     public Visiteur(String nom, String email, String telephone) {

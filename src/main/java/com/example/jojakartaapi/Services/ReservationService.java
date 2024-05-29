@@ -1,18 +1,16 @@
 package com.example.jojakartaapi.Services;
 
+import com.example.jojakartaapi.Error.ResourceNotFoundException;
 import com.example.jojakartaapi.model.Epreuve;
 import com.example.jojakartaapi.model.Reservation;
-import com.example.jojakartaapi.model.Ticket;
 import com.example.jojakartaapi.model.Visiteur;
-import com.example.jojakartaapi.repository.EpreuveRepository;
 import com.example.jojakartaapi.repository.ReservationRepository;
-import com.example.jojakartaapi.repository.TicketRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ReservationService {
@@ -21,32 +19,42 @@ public class ReservationService {
     private ReservationRepository reservationRepository;
 
     @Autowired
-    private TicketRepository ticketRepository;
+    private EpreuveService epreuveService;  // Assuming you have this service to manage Epreuve
 
-    @Autowired
-    private EpreuveRepository epreuveRepository;
-
-    @Transactional
     public boolean createReservation(Visiteur visiteur, Long epreuveId, int nbPlaces, Date date) {
-        List<Reservation> existingReservations = reservationRepository.findByVisiteurAndDate(visiteur, date);
-        if (!existingReservations.isEmpty()) {
-            return false;
+        Optional<Epreuve> epreuveOpt = epreuveService.getEpreuveById(epreuveId);
+        if (epreuveOpt.isPresent()) {
+            Epreuve epreuve = epreuveOpt.get();
+            if (epreuve.getNbPlaces() >= nbPlaces) {
+                epreuve.setNbPlaces(epreuve.getNbPlaces() - nbPlaces);
+                epreuveService.updateEpreuve(epreuveId, epreuve);
+                Reservation reservation = new Reservation(visiteur, date);
+                reservationRepository.save(reservation);
+                return true;
+            }
         }
+        return false;
+    }
 
-        Epreuve epreuve = epreuveRepository.findById(epreuveId).orElse(null);
-        if (epreuve == null || epreuve.getNbPlaces() < nbPlaces) {
-            return false;
-        }
-        epreuve.setNbPlaces(epreuve.getNbPlaces() - nbPlaces);
-        epreuveRepository.save(epreuve);
+    public List<Reservation> getAllReservations() {
+        return reservationRepository.findAll();
+    }
 
-        Reservation reservation = new Reservation(visiteur, date);
-        reservationRepository.save(reservation);
-        for (int i = 0; i < nbPlaces; i++) {
-            Ticket ticket = new Ticket(visiteur, reservation);
-            ticketRepository.save(ticket);
-        }
+    public Optional<Reservation> getReservationById(Long id) {
+        return reservationRepository.findById(id);
+    }
 
-        return true;
+    public Reservation updateReservation(Long id, Reservation reservationDetails) {
+        return reservationRepository.findById(id)
+                .map(reservation -> {
+                    reservation.setVisiteur(reservationDetails.getVisiteur());
+                    reservation.setDate(reservationDetails.getDate());
+                    return reservationRepository.save(reservation);
+                })
+                .orElseThrow(() -> new ResourceNotFoundException("Reservation not found with id " + id));
+    }
+
+    public void deleteReservation(Long id) {
+        reservationRepository.deleteById(id);
     }
 }

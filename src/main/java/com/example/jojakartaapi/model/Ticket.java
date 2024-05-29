@@ -20,7 +20,6 @@ public class Ticket {
     private Reservation reservation;
 
     public Ticket() {
-        // Constructeur par défaut
     }
 
     public Ticket(Visiteur visiteur, Reservation reservation) {

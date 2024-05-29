@@ -1,19 +1,20 @@
 package com.example.jojakartaapi.Controller;
 
+import com.example.jojakartaapi.Error.ResourceNotFoundException;
+import com.example.jojakartaapi.model.Reservation;
 import com.example.jojakartaapi.model.Visiteur;
 import com.example.jojakartaapi.Services.ReservationService;
 import com.example.jojakartaapi.Services.VisiteurService;
 import org.springframework.beans.factory.annotation.Autowired;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Calendar;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.GregorianCalendar;
+import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/reservations")
@@ -48,5 +49,32 @@ public class ReservationController {
         }
     }
 
-}
+    @GetMapping
+    public ResponseEntity<List<Reservation>> getAllReservations() {
+        List<Reservation> reservations = reservationService.getAllReservations();
+        return new ResponseEntity<>(reservations, HttpStatus.OK);
+    }
 
+    @GetMapping("getReservation/{id}")
+    public ResponseEntity<Reservation> getReservationById(@PathVariable Long id) {
+        Optional<Reservation> reservation = reservationService.getReservationById(id);
+        return reservation.map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    @PutMapping("updateReservation/{id}")
+    public ResponseEntity<Reservation> updateReservation(@PathVariable Long id, @RequestBody Reservation reservationDetails) {
+        try {
+            Reservation updatedReservation = reservationService.updateReservation(id, reservationDetails);
+            return ResponseEntity.ok(updatedReservation);
+        } catch (ResourceNotFoundException e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @DeleteMapping("deleteReservation/{id}")
+    public ResponseEntity<Void> deleteReservation(@PathVariable Long id) {
+        reservationService.deleteReservation(id);
+        return ResponseEntity.noContent().build();
+    }
+}

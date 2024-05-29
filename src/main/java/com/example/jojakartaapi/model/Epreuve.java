@@ -24,7 +24,6 @@ public class Epreuve {
     private Integer nbPlaces;
 
     public Epreuve() {
-        // Constructeur par défaut requis par JPA
     }
 
     public Epreuve(String libelle, String lieu, Date date, Integer nbPlaces) {

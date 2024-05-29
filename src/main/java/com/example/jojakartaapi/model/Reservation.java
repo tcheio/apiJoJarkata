@@ -18,11 +18,7 @@ public class Reservation {
     @Temporal(TemporalType.TIMESTAMP)
     private Date date;
 
-    // Autres propriétés
-
-    // Constructeurs, getters et setters
     public Reservation() {
-        // Constructeur par défaut requis par JPA
     }
 
     public Reservation(Visiteur visiteur, Date date) {
