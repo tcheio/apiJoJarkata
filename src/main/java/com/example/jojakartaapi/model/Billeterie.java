@@ -1,13 +1,20 @@
 package com.example.jojakartaapi.model;
 
+import com.example.jojakartaapi.model.Epreuve;
 import jakarta.persistence.*;
+@Entity
 public class Billeterie {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @ManyToOne
+    @JoinColumn(name = "epreuve_id")
     private Epreuve epreuve;
+    @Column(nullable = false)
     private Long prix;
+    @Column(nullable = false)
     private Integer nbPlace;
 
     public Billeterie(Long id, Epreuve epreuve, Long prix, Integer nbPlace) {

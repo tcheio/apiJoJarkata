@@ -1,21 +1,30 @@
 package com.example.jojakartaapi.model;
 
 import jakarta.persistence.*;
+
+@Entity
 public class Visiteur {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(nullable = false)
     private String nom;
-    private String tel;
-    private String mail;
 
+    @Column(nullable = false)
+    private String email;
 
-    public Visiteur(Long id, String nom, String tel, String mail) {
-        this.id = id;
+    @Column(nullable = false)
+    private String telephone;
+
+    public Visiteur() {
+    }
+
+    public Visiteur(String nom, String email, String telephone) {
         this.nom = nom;
-        this.tel = tel;
-        this.mail = mail;
+        this.email = email;
+        this.telephone = telephone;
     }
 
     public Long getId() {
@@ -34,19 +43,19 @@ public class Visiteur {
         this.nom = nom;
     }
 
-    public String getTel() {
-        return tel;
+    public String getEmail() {
+        return email;
     }
 
-    public void setTel(String tel) {
-        this.tel = tel;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
-    public String getMail() {
-        return mail;
+    public String getTelephone() {
+        return telephone;
     }
 
-    public void setMail(String mail) {
-        this.mail = mail;
+    public void setTelephone(String telephone) {
+        this.telephone = telephone;
     }
 }

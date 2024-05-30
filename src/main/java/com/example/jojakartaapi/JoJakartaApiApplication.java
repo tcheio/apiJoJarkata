@@ -11,7 +11,7 @@ public class JoJakartaApiApplication {
 
     @RequestMapping("/")
     String home(){
-        return "Hello World";
+        return "Hello Worldd";
     }
     public static void main(String[] args) {
         SpringApplication.run(JoJakartaApiApplication.class, args);

@@ -1,27 +1,37 @@
 package com.example.jojakartaapi.model;
 
 import jakarta.persistence.*;
+import java.util.Date;
 
 @Entity
 public class Reservation {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
     @ManyToOne
-    @JoinColumn(name = "visiteur")
+    @JoinColumn(name = "visiteur", nullable = false)
     private Visiteur visiteur;
 
-    @Id
-    @ManyToOne
-    @JoinColumn(name = "epreuve")
-    private Epreuve epreuve;
+    @Column(nullable = false)
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date date;
 
-    @Column(name = "nbPlaceReserv")
-    private Integer nbPlaceReserv;
+    public Reservation() {
+    }
 
-    public Reservation(Visiteur visiteur, Epreuve epreuve, Integer nbPlaceReserv) {
+    public Reservation(Visiteur visiteur, Date date) {
         this.visiteur = visiteur;
-        this.epreuve = epreuve;
-        this.nbPlaceReserv = nbPlaceReserv;
+        this.date = date;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public Visiteur getVisiteur() {
@@ -32,19 +42,12 @@ public class Reservation {
         this.visiteur = visiteur;
     }
 
-    public Epreuve getEpreuve() {
-        return epreuve;
+    public Date getDate() {
+        return date;
     }
 
-    public void setEpreuve(Epreuve epreuve) {
-        this.epreuve = epreuve;
+    public void setDate(Date date) {
+        this.date = date;
     }
 
-    public Integer getNbPlaceReserv() {
-        return nbPlaceReserv;
-    }
-
-    public void setNbPlaceReserv(Integer nbPlaceReserv) {
-        this.nbPlaceReserv = nbPlaceReserv;
-    }
 }
