@@ -18,13 +18,21 @@ public class Visiteur {
     @Column(nullable = false)
     private String telephone;
 
+    @Column(nullable = false, unique = true)
+    private String username;
+
+    @Column(nullable = false)
+    private String password;
+
     public Visiteur() {
     }
 
-    public Visiteur(String nom, String email, String telephone) {
+    public Visiteur(String nom, String email, String telephone, String username, String password) {
         this.nom = nom;
         this.email = email;
         this.telephone = telephone;
+        this.username = username;
+        this.password = password;
     }
 
     public Long getId() {
@@ -57,5 +65,21 @@ public class Visiteur {
 
     public void setTelephone(String telephone) {
         this.telephone = telephone;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }
